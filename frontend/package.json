@@ -1,0 +1,19 @@
+{
+  "name": "heartbeat-monitor-frontend",
+  "version": "1.0.0",
+  "description": "Frontend UI for the Heart Beat Monitoring System",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server . -p 3000 -c-1"
+  },
+  "keywords": [
+    "heartbeat",
+    "monitor",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

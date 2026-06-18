@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - History</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .history-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .history-bpm {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-time {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .normal {
+            color: var(--primary);
+        }
+
+        .low {
+            color: var(--info);
+        }
+
+        .high {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body class="dashboard-page dark-theme">
+
+    <div class="sidebar glass-panel">
+        <div class="sidebar-header">
+            <span class="heart-icon">💖</span>
+            <h3>PulseSync</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="profile.html" class="nav-item">👤 Profile</a>
+            <a href="history.html" class="nav-item active">📈 Ratings History</a>
+            <a href="alerts.html" class="nav-item">🚨 Alerts</a>
+            <a href="feedback.html" class="nav-item">💬 Feedback</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn btn-danger btn-block">Logout</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <header class="top-section glass-panel">
+            <h2>Today's Ratings History</h2>
+        </header>
+
+        <section class="center-section glass-panel" style="overflow-y: auto;">
+            <div class="history-list" id="historyContainer">
+                Loading...
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!ApiService.getToken()) window.location.href = 'login.html';
+
+            const container = document.getElementById('historyContainer');
+
+            try {
+                const readings = await ApiService.getTodayReadings();
+                container.innerHTML = '';
+
+                if (readings.length === 0) {
+                    container.innerHTML = '<p>No readings recorded today.</p>';
+                    return;
+                }
+
+                readings.forEach(record => {
+                    const time = new Date(record.timestamp).toLocaleTimeString();
+                    let colorClass = 'normal';
+                    if (record.bpm < 60) colorClass = 'low';
+                    if (record.bpm > 100) colorClass = 'high';
+
+                    const card = document.createElement('div');
+                    card.className = 'history-card';
+                    card.innerHTML = `
+                        <div class="history-bpm ${colorClass}">${record.bpm} BPM</div>
+                        <div class="history-time">${time}</div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                container.innerHTML = '<p style="color:red">Failed to load history.</p>';
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                ApiService.clearAuth();
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

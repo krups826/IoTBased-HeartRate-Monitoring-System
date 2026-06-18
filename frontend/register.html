@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - Register</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-page dark-theme">
+    <div class="auth-container glass-panel">
+        <div class="auth-header">
+            <div class="heart-icon animated">💖</div>
+            <h2>Create Account</h2>
+            <p>Join PulseSync Monitor</p>
+        </div>
+
+        <div id="alertMessage" class="alert hidden"></div>
+
+        <form id="registerForm">
+            <div class="form-row">
+                <div class="form-group half">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group half">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" required min="11" placeholder="> 10">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="email" id="email" required style="flex: 1;">
+                    <button type="button" id="sendOtpBtn" class="btn btn-secondary" style="padding: 0 15px; white-space: nowrap;">Send Code</button>
+                </div>
+            </div>
+
+            <div class="form-group hidden" id="otpGroup">
+                <label for="otp">Verification Code</label>
+                <input type="text" id="otp" placeholder="Enter 6-digit code">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="login.html">Sign In</a></p>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+</body>
+</html>

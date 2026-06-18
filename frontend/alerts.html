@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - Alerts</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="dashboard-page dark-theme">
+
+    <div class="sidebar glass-panel">
+        <div class="sidebar-header">
+            <span class="heart-icon">💖</span>
+            <h3>PulseSync</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="profile.html" class="nav-item">👤 Profile</a>
+            <a href="history.html" class="nav-item">📈 Ratings History</a>
+            <a href="alerts.html" class="nav-item active">🚨 Alerts</a>
+            <a href="feedback.html" class="nav-item">💬 Feedback</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn btn-danger btn-block">Logout</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <header class="top-section glass-panel">
+            <h2>System Alerts</h2>
+        </header>
+
+        <section class="center-section glass-panel" style="overflow-y: auto;">
+            <div class="readings-list" id="alertsList">
+                Loading Alerts...
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!ApiService.getToken()) window.location.href = 'login.html';
+
+            const list = document.getElementById('alertsList');
+
+            try {
+                const alerts = await ApiService.getAlerts();
+                list.innerHTML = '';
+
+                if (alerts.length === 0) {
+                    list.innerHTML = '<div class="reading-item">No alerts recorded. Normal Heart Rate! 😊</div>';
+                    return;
+                }
+
+                alerts.forEach(alert => {
+                    const time = new Date(alert.timestamp).toLocaleString();
+                    const isHigh = alert.type === 'HIGH';
+
+                    const item = document.createElement('div');
+                    item.className = 'reading-item';
+                    item.innerHTML = `
+                        <div style="display:flex; flex-direction:column; gap:0.5rem">
+                            <strong style="color: ${isHigh ? 'var(--danger)' : 'var(--info)'}">${alert.type} ALERT</strong>
+                            <span>${alert.message}</span>
+                            <small class="reading-time">${time}</small>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+
+            } catch (e) {
+                list.innerHTML = '<div class="reading-item alert-danger">Failed to load alerts.</div>';
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                ApiService.clearAuth();
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

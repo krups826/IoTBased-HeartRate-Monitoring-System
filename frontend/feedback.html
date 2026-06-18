@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - Feedback</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="dashboard-page dark-theme">
+
+    <div class="sidebar glass-panel">
+        <div class="sidebar-header">
+            <span class="heart-icon">💖</span>
+            <h3>PulseSync</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="profile.html" class="nav-item">👤 Profile</a>
+            <a href="history.html" class="nav-item">📈 Ratings History</a>
+            <a href="alerts.html" class="nav-item">🚨 Alerts</a>
+            <a href="feedback.html" class="nav-item active">💬 Feedback</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn btn-danger btn-block">Logout</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <header class="top-section glass-panel">
+            <h2>Send Feedback</h2>
+        </header>
+
+        <section class="center-section glass-panel">
+            <div id="fbAlert" class="alert hidden"></div>
+            <form id="feedbackForm" style="max-width: 500px; display:flex; flex-direction:column; gap:1.5rem;">
+                <div class="form-group">
+                    <label>How are you feeling?</label>
+                    <select
+                        style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: #fff; border-radius:8px;">
+                        <option>Excellent</option>
+                        <option>Normal</option>
+                        <option>Tired</option>
+                        <option>Dizzy / Unwell</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Additional Notes for your Doctor</label>
+                    <textarea rows="5"
+                        style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: #fff; border-radius:8px; resize:none;"
+                        placeholder="Describe any symptoms..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+        </section>
+    </main>
+    <aside class="right-panel glass-panel"></aside>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!ApiService.getToken()) window.location.href = 'login.html';
+
+            document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const alertBox = document.getElementById('fbAlert');
+                alertBox.className = 'alert alert-success';
+                alertBox.textContent = 'Feedback successfully submitted to your medical provider!';
+                alertBox.classList.remove('hidden');
+                e.target.reset();
+            });
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                ApiService.clearAuth();
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

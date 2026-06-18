@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-page dark-theme">
+    <div class="auth-container glass-panel">
+        <div class="auth-header">
+            <div class="heart-icon animated">💖</div>
+            <h2>PulseSync Monitor</h2>
+            <p>Sign in to your account</p>
+        </div>
+
+        <div id="alertMessage" class="alert hidden"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="register.html">Create New Account</a></p>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+</body>
+</html>

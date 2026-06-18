@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartBeat Monitor - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-page dark-theme">
+
+    <div class="sidebar glass-panel">
+        <div class="sidebar-header">
+            <span class="heart-icon">💖</span>
+            <h3>PulseSync</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
+            <a href="profile.html" class="nav-item">👤 Profile</a>
+            <a href="history.html" class="nav-item">📈 Ratings History</a>
+            <a href="alerts.html" class="nav-item">🚨 Alerts</a>
+            <a href="feedback.html" class="nav-item">💬 Feedback</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn btn-danger btn-block">Logout</button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <header class="top-section glass-panel">
+            <div class="bpm-display">
+                <span class="animated-heart" id="mainHeart">❤️</span>
+                <div class="bpm-info">
+                    <h1 id="currentBpmDisplay">--</h1>
+                    <span class="bpm-label">BPM</span>
+                </div>
+            </div>
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                <span id="statusText">Waiting...</span>
+            </div>
+        </header>
+
+        <section class="center-section glass-panel">
+            <div class="chart-header">
+                <h2>Real-time ECG</h2>
+                <div class="chart-controls">
+                    <span class="live-indicator">● LIVE</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="ecgChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <aside class="right-panel glass-panel">
+        <div class="panel-header">
+            <h3>Today's Readings</h3>
+        </div>
+        <div class="readings-list" id="readingsList">
+            <!-- Populated by JS -->
+            <div class="reading-item skeleton"></div>
+            <div class="reading-item skeleton"></div>
+            <div class="reading-item skeleton"></div>
+        </div>
+    </aside>
+
+    <script src="js/api.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
